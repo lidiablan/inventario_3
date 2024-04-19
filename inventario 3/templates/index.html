@@ -5,15 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Inventario</title>
-    <style>
-        #modalCrear:target{
-            display: block;
-        }
-
-        #modalEditar:target{/* Muestra el modal cuando se le da al boton */
-            display: block;
-        }
-    </style>
 </head>
 <body>
     <div id="contedor" class="ml-8 mt-6">
@@ -34,177 +25,49 @@
     <br>
     <div class="ml-8">
         <table class="p-2.5 pt-2 pb-2 border-collapse w-11/12 justify-center">
-            <thead>
-                <tr class="bg-slate-400 border-collapse">
-                    <th class="px-4 py-2 border text-center">Fecha/hora</th>
-                    <th class="px-4 py-2 border text-center">Empleado</th>
-                    <th class="px-4 py-2 border text-center">Descripcion</th>
-                    <th class="px-4 py-2 border text-center">SN</th>
-                    <th class="px-4 py-2 border text-center">Compañia Transporte</th>
-                    <th class="px-4 py-2 border text-center">Track</th>
-                    <th class="px-4 py-2 border text-center">Tipo de Producto</th>
-                    <th class="px-4 py-2 border text-center">Origen</th>
-                    <th class="px-4 py-2 border text-center">Destino</th>
-                    <th class="px-4 py-2 border text-center">Minando</th>
-                    <th class="px-4 py-2 border text-center">Acciones</th>
+            <tr class="bg-slate-400 border-collapse">
+                <th class="px-4 py-2 border text-center">Fecha/hora</th>
+                <th class="px-4 py-2 border text-center">Empleado</th>
+                <th class="px-4 py-2 border text-center">Descripcion</th>
+                <th class="px-4 py-2 border text-center">SN</th>
+                <th class="px-4 py-2 border text-center">Compañia Transporte</th>
+                <th class="px-4 py-2 border text-center">Track</th>
+                <th class="px-4 py-2 border text-center">Tipo de Producto</th>
+                <th class="px-4 py-2 border text-center">Origen</th>
+                <th class="px-4 py-2 border text-center">Destino</th>
+                <th class="px-4 py-2 border text-center">Minando</th>
+                <th class="px-4 py-2 border text-center">Acciones</th>
+            </tr>
+            {% for paquete in paquetes %}
+                <tr>
+                    <td class="px-4 py-2 border text-center">2024-12-04 14:52</td>
+                    <td class="px-4 py-2 border text-center">Lidia Blanco Villasuso</td>
+                    <td class="px-4 py-2 border text-center">Descripcion 1</td>
+                    <td class="px-4 py-2 border text-center">407-1558820-3731552</td>
+                    <td class="px-4 py-2 border text-center">Correos Express</td>
+                    <td class="px-4 py-2 border text-center">Si</td>
+                    <td class="px-4 py-2 border text-center">E-Commerce</td>
+                    <td class="px-4 py-2 border text-center">España</td>
+                    <td class="px-4 py-2 border text-center">Hosting</td>
+                    <td class="px-4 py-2 border text-center">True</td>
+                    <td class="px-4 py-2 border text-center"><a href="formulario mod.html"><button type="button" id="mod">📝</button></a>|<button type="button" id="eliminar" onclick="eliminar()">🗑️</button></td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for paquete in paquetes %}
-                    <tr>
-                        <td class="px-4 py-2 border text-center">{{ paquete.fechahora }}</td>
-                        <td class="px-4 py-2 border text-center">{{ paquete.id_emplado }}</td>
-                        <td class="px-4 py-2 border text-center">{{ paquete.descripcion }}</td>
-                        <td class="px-4 py-2 border text-center">{{ paquete.sn }}</td>
-                        <td class="px-4 py-2 border text-center">{{ paquete.compañiaTransporte }}</td>
-                        <td class="px-4 py-2 border text-center">{{ paquete.track }}</td>
-                        <td class="px-4 py-2 border text-center">{{ paquete.tipoProducto }}</td>
-                        <td class="px-4 py-2 border text-center">{{ paquete.origen }}</td>
-                        <td class="px-4 py-2 border text-center">{{ paquete.destino }}</td>
-                        <td class="px-4 py-2 border text-center">{{ paquete.minando }}</td>
-                        <td class="px-4 py-2 border text-center">
-                            <a href="{{ url_for('update', id=paquete.id) }}"><button type="button" id="mod">📝</button></a>
-                            <a href="{{ url_for('delete', id=paquete.id) }}"><button type="button" id="eliminar" onclick="eliminar()">🗑️</button></a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
+            {% endfor %}
+            <tr>
+                <td class="px-4 py-2 border text-center">2019-12-04 14:52</td>
+                <td class="px-4 py-2 border text-center">Lidia Blanco Villasuso</td>
+                <td class="px-4 py-2 border text-center">Descripcion 2</td>
+                <td class="px-4 py-2 border text-center">407-1558820-3731552</td>
+                <td class="px-4 py-2 border text-center">Correos Express</td>
+                <td class="px-4 py-2 border text-center">Si</td>
+                <td class="px-4 py-2 border text-center">E-Commerce</td>
+                <td class="px-4 py-2 border text-center">España</td>
+                <td class="px-4 py-2 border text-center">Hosting</td>
+                <td class="px-4 py-2 border text-center">True</td>
+                <td class="px-4 py-2 border text-center"><button type="button" id="mod">📝</button>|<button type="button" id="eliminar">🗑️</button></td>
+            </tr>
         </table>
     </div>
-    
-    <!-- <div id="modalCrear" aria-hidden="true">
-        <h3 class="mx-10 mt-2.5 text-3xl font-bold dark:text-white">Crear Paquete</h3><br>
-        <div id="formulario" class="mx-10">
-            <form action="/" method="post">
-                <label for="empleado" class="block text-sm font-medium leading-6 text-gray-900">Nombre del empleado</label>
-                <input type="text" id="registrar" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Registrar"><br><br>
-
-                <label for="fechahora" class="block text-sm font-medium leading-6 text-gray-900">Fecha y hora</label>
-                <input type="datetime-local" id="fechahora" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"><br><br>
-
-                <label for="descripcion" class="block text-sm font-medium leading-6 text-gray-900">Descripcion</label>
-                <textarea name="descripcion" id="descripcion" cols="30" rows="5" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none" placeholder="Descripcion"></textarea><br><br>
-
-                <label for="sn" class="block text-sm font-medium leading-6 text-gray-900">Numero de serie: </label>
-                <input type="text" id="sn" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="SN(Numero de serie)"><br><br>
-
-                <label for="compañia" class="block text-sm font-medium leading-6 text-gray-900">Compañia de Transporte</label>
-                <select id="compañia" name="compañia" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="seur">Seur</option>
-                    <option value="correos">Correos Express</option>
-                    <option value="dhl">DHL</option>
-                    <option value="ups">UPS</option>
-                </select><br><br>
-
-                <label for="track" class="block text-sm font-medium leading-6 text-gray-900">Track</label>
-                <input type="text" id="track" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Track"><br><br>
-
-                <label for="tipo" class="block text-sm font-medium leading-6 text-gray-900">Tipo de Producto</label>
-                <select id="tipo" name="tipo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="E-Commerce">E-Commerce</option>
-                    <option value="Minando">Minando</option>
-                </select><br><br>
-
-                <label for="origen" class="block text-sm font-medium leading-6 text-gray-900">Origen</label>
-                <select id="origen" name="origen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="china">China</option>
-                    <option value="españa">España</option>
-                    <option value="devolucion">Devolucion</option>
-                    <option value="oficina">Oficina</option>
-                </select><br><br>
-
-                <label for="destino" class="block text-sm font-medium leading-6 text-gray-900">Destino</label>
-                <select id="destino" name="destino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="hosting">Hosting</option>
-                    <option value="españa">España</option>
-                    <option value="otros">Otros</option>
-                </select><br><br>
-
-                <input type="checkbox" id="minando" name="minando" value="minando">
-                <label for="minando"> Minando</label><br><br>
-
-                <div id="botones" class="bg-slate-300 h-11 text-center">
-                    <a href="index.html">
-                        <button type="button" id="cerrar" class="mt-2  bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 border border-gray-400 rounded shadow">
-                            Cerrar
-                        </button>
-                    </a>
-                    <button type="button" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 border border-gray-400 rounded shadow" id="cancelar" onClick = "reset()">
-                        Cancelar
-                    </button>
-                    <button type="button" id="confirmar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
-                        Confirmar
-                    </button>
-                </div>
-            </form>
-        </div>
-    <div>
-
-    <div id="modalEditar" aria-hidden="true">
-        <h3 class="mx-10 mt-2.5 text-3xl font-bold dark:text-white">Modificar Paquete</h3><br>
-        <div id="formulario" class="mx-10">
-            <form action="update/{paquete.id}">
-                <label for="empleado" class="block text-sm font-medium leading-6 text-gray-900">Nombre del empleado</label>
-                <input type="text" id="registrar" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{paquete.id_emplado}}" disabled><br><br>
-
-                <label for="fechahora" class="block text-sm font-medium leading-6 text-gray-900">Fecha y hora</label>
-                <input type="datetime-local" id="fechahora" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{paquete.fechahora}}"><br><br>
-
-                <label for="descripcion" class="block text-sm font-medium leading-6 text-gray-900">Descripcion</label>
-                <textarea name="descripcion" id="descripcion" cols="30" rows="5" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none" disabled>{{paquete.descripcion}}</textarea><br><br>
-
-                <label for="sn" class="block text-sm font-medium leading-6 text-gray-900">Numero de serie: </label>
-                <input type="text" id="sn" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{paquete.sn}}" disabled><br><br>
-
-                <label for="compañia" class="block text-sm font-medium leading-6 text-gray-900">Compañia de Transporte</label>
-                <select id="compañia" name="compañia" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
-                    <option value="seur">Seur</option>
-                    <option value="correos">Correos Express</option>
-                    <option value="dhl">DHL</option>
-                    <option value="ups">UPS</option>
-                </select><br><br>
-
-                <label for="track" class="block text-sm font-medium leading-6 text-gray-900">Track</label>
-                <input type="text" id="track" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{paquete.track}}" disabled><br><br>
-
-                <label for="tipo" class="block text-sm font-medium leading-6 text-gray-900">Tipo de Producto</label>
-                <select id="tipo" name="tipo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
-                    <option value="E-Commerce">E-Commerce</option>
-                    <option value="Minando">Minando</option>
-                </select><br><br>
-
-                <label for="origen" class="block text-sm font-medium leading-6 text-gray-900">Origen</label>
-                <select id="origen" name="origen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
-                    <option value="china">China</option>
-                    <option value="españa">España</option>
-                    <option value="devolucion">Devolucion</option>
-                    <option value="oficina">Oficina</option>
-                </select><br><br>
-
-                <label for="destino" class="block text-sm font-medium leading-6 text-gray-900">Destino</label>
-                <select id="destino" name="destino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
-                    <option value="hosting">Hosting</option>
-                    <option value="españa">España</option>
-                    <option value="otros">Otros</option>
-                </select><br><br>
-
-                <input type="checkbox" id="minando" name="minando" value="minando">
-                <label for="minando"> Minando</label><br><br>
-
-                <div id="botones" class="bg-slate-300 h-11 text-center">
-                    <a href="index.html">
-                        <button type="button" id="cerrar" class="mt-2  bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 border border-gray-400 rounded shadow">
-                            Cerrar
-                        </button>
-                    </a>
-                    <button type="button" id="confirmar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
-                        Confirmar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div> -->
-
     <script src="index.js"></script>
 </body>
 </html>
