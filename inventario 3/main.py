@@ -6,8 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://Prueba3:Practicas2024%40@92.222.101.198/inventario3'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://lidia:abc123..@localhost/inventario3'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://Prueba3:Practicas2024%40@92.222.101.198/inventario3'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://lidia:abc123..@localhost/inventario3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -40,7 +40,7 @@ def get_paquetes():
     return render_template('index.html', paquetes=paquetes)
 
 @app.route('/')
-@app.route('index/<init:id>', methods=['GET'])
+@app.route('/index/<id>', methods=['GET'])
 def get_paquete(id):
     paquete = Paquetes.query.get_or_404(id)
     return jsonify({
@@ -100,7 +100,7 @@ def update(id):
     
     return render_template('formulario mod.html', paquete=paquete)
 
-@app.route('delete/<id>', methods=['DELETE'])
+@app.route('/delete/<id>', methods=['DELETE'])
 def delete(id):
     paquete = Paquetes.query.get_or_404(id)
     db.session.delete(paquete)
@@ -114,7 +114,7 @@ def get_empleados():
     return render_template('index.html', empleados=empleados)
 
 @app.route('/')
-@app.route('index/<init:id>', methods=['GET'])
+@app.route('/index/<id>', methods=['GET'])
 def get_empleado(id):
     empleado = Empleados.query.get_or_404(id)
     return jsonify({
@@ -123,6 +123,7 @@ def get_empleado(id):
         'paquetes': empleado.paquete,
     })
 
+'''
 @app.route('/')
 @app.route('/', methods=['GET', 'POST'])
 def formulario(id):
@@ -139,6 +140,7 @@ def formulario(id):
       db.session.commit()
       return redirect('/' , str(nuevo_empleado.id))
 
+
 @app.route('/update/<id>', methods=['GET', 'POST'])
 def update(id):
     empleado = Empleados.query.get(id)
@@ -151,17 +153,15 @@ def update(id):
     
     return render_template('empleadomod.html', empleado=empleado)
 
-@app.route('delete/<id>', methods=['DELETE'])
+@app.route('/delete/<id>', methods=['DELETE'])
 def delete(id):
     empleado = Empleados.query.get_or_404(id)
     db.session.delete(empleado)
     db.session.commit()
     flash("El empleado se eliminó correctamente")
     return redirect(url_for ('get_empleados'))
-
+'''
 if __name__ == '__main__':
-    app.app_context()
-    db.create_all()
     app.run(debug=True)
 
 '''
