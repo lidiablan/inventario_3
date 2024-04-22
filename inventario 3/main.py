@@ -1,7 +1,7 @@
 """from fastapi import FastAPI, Path, Query
 from fastapi.responses import JSONResponse
  from config.database import Session """
-from flask import url_for, render_template, redirect, Flask, request, jsonify
+from flask import url_for, render_template, redirect, Flask, request, jsonify, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -30,14 +30,14 @@ class Empleados(db.Model):
     __tablename__ = "empleados"
     id_empleado = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(255), nullable=False)
-    paquetes = db.relationship('Paquetes', backref='empleado', lazy=True)
+    #paquetes = db.relationship('Paquetes', backref='empleado', lazy=True)
         
 #Vista de si esta minando o no
 
 @app.route('/', methods=['GET'])
 def get_paquetes():
     paquetes = Paquetes.query.all()
-    return render_template('index.html', paquetes=paquetes)
+    return render_template('index.html', paquete=paquetes)
 
 @app.route('/')
 @app.route('/index/<id>', methods=['GET'])
@@ -58,7 +58,7 @@ def get_paquete(id):
     })
 
 @app.route('/')
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/new', methods=['GET', 'POST'])
 def formulario(id):
     if request.method == 'POST':
       empleado = int(request.form['registrador'])
@@ -94,7 +94,7 @@ def formulario(id):
 def update(id):
     paquete = Paquetes.query.get(id)
     if request.method == 'POST':
-      registro.minando = True if 'minando' in request.form else False
+      paquete.minando = True if 'minando' in request.form else False
       db.session.commit()
       return redirect(url_for('get_paquetes'))
     
@@ -120,13 +120,12 @@ def get_empleado(id):
     return jsonify({
         'id': empleado.id,
         'nombre': empleado.nombre,
-        'paquetes': empleado.paquete,
+        #'paquetes': empleado.paquete,
     })
 
-'''
 @app.route('/')
 @app.route('/', methods=['GET', 'POST'])
-def formulario(id):
+def formularioEmpleado(id):
     if request.method == 'POST':
       nombre = request.form['nombre']
       paquetes = request.form['paquetes']
@@ -140,9 +139,8 @@ def formulario(id):
       db.session.commit()
       return redirect('/' , str(nuevo_empleado.id))
 
-
 @app.route('/update/<id>', methods=['GET', 'POST'])
-def update(id):
+def updateEmpleado(id):
     empleado = Empleados.query.get(id)
     if request.method == 'POST':
       empleado.nombre = request.form["nombre"]
@@ -154,13 +152,13 @@ def update(id):
     return render_template('empleadomod.html', empleado=empleado)
 
 @app.route('/delete/<id>', methods=['DELETE'])
-def delete(id):
+def deleteEmpleado(id):
     empleado = Empleados.query.get_or_404(id)
     db.session.delete(empleado)
     db.session.commit()
     flash("El empleado se eliminó correctamente")
     return redirect(url_for ('get_empleados'))
-'''
+
 if __name__ == '__main__':
     app.run(debug=True)
 

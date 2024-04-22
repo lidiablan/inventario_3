@@ -6,26 +6,54 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Inventario</title>
     <style>
-        #modalCrear:target{
-            display: block;
+
+        .modalmask{
+            top:0;
+            right:0;
+            bottom:0;
+            left:0;
+            opacity:0;
+            pointer-events:none;
+            z-index: 50;
+            #contedor{
+                background-color: rgba(255,255,255, 0.5);
+                color: white;
+                opacity: 0;
+                z-index: 0;
+            }
         }
 
-        #modalEditar:target{/* Muestra el modal cuando se le da al boton */
-            display: block;
+        #modalCrear:target{
+            opacity:1;
+            pointer-events:auto;
+            z-index: 10;
+        }
+
+        #modalEditar:target{
+            opacity:1;
+            pointer-events:auto;
         }
     </style>
+    <script>
+        function reset(){  
+            document.getElementById("cancelar").reset();  
+        } 
+
+        function eliminar() {
+            confirm("¿Estás seguro de querer eliminar?");
+        } 
+    </script>
 </head>
 <body>
-    {% block content %}
     <div id="contedor" class="ml-8 mt-6">
-        <h1 class="text-4xl font-extrabold dark:text-white">Panel de Gestión de Pedidos</h1>
+        <h1 class="text-4xl font-extrabold dark:text-black">Panel de Gestión de Pedidos</h1>
         <div class="flex mt-3 space-x-3">
             <!-- Esta tarxeta dará acceso á compoñente ENGADIR -->
             <div id="guardar" class="bg-lime-500 rounded-md w-36 h-11">
                 <p class="mt-2 ml-3 text-white">Guardar Cambios</p>
             </div>
             <!-- Esta tarxeta dará acceso á compoñente CONSULTAR -->
-            <a href="formulario alta.html" class="bg-sky-700 rounded-md w-36 h-11">
+            <a href="#modalCrear" class="bg-sky-700 rounded-md w-36 h-11">
                 <button id="nueva" type="button" class="mt-2 ml-4 text-white">
                     Añadir Paquete
                 </button>
@@ -72,12 +100,11 @@
             </tbody>
         </table>
     </div>
-    {% endblock %}
     
-    <!-- <div id="modalCrear" aria-hidden="true">
+    <div id="modalCrear" class="modalmask" aria-hidden="true">
         <h3 class="mx-10 mt-2.5 text-3xl font-bold dark:text-white">Crear Paquete</h3><br>
         <div id="formulario" class="mx-10">
-            <form action="/" method="post">
+            <form action="/new" method="post">
                 <label for="empleado" class="block text-sm font-medium leading-6 text-gray-900">Nombre del empleado</label>
                 <input type="text" id="registrar" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Registrar"><br><br>
 
@@ -126,7 +153,7 @@
                 <label for="minando"> Minando</label><br><br>
 
                 <div id="botones" class="bg-slate-300 h-11 text-center">
-                    <a href="index.html">
+                    <a href="/">
                         <button type="button" id="cerrar" class="mt-2  bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 border border-gray-400 rounded shadow">
                             Cerrar
                         </button>
@@ -142,7 +169,7 @@
         </div>
     <div>
 
-    <div id="modalEditar" aria-hidden="true">
+    <div id="modalEditar" class="modalmask" aria-hidden="true">
         <h3 class="mx-10 mt-2.5 text-3xl font-bold dark:text-white">Modificar Paquete</h3><br>
         <div id="formulario" class="mx-10">
             <form action="update/{paquete.id}">
@@ -194,7 +221,7 @@
                 <label for="minando"> Minando</label><br><br>
 
                 <div id="botones" class="bg-slate-300 h-11 text-center">
-                    <a href="index.html">
+                    <a href="/">
                         <button type="button" id="cerrar" class="mt-2  bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 border border-gray-400 rounded shadow">
                             Cerrar
                         </button>
@@ -205,8 +232,6 @@
                 </div>
             </form>
         </div>
-    </div> -->
-
-    <script src="index.js"></script>
+    </div>
 </body>
 </html>
