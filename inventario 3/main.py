@@ -32,6 +32,7 @@ class Empleados(db.Model):
     nombre = db.Column(db.String(255), nullable=False)
     #paquetes = db.relationship('Paquetes', backref='empleado', lazy=True)
 
+#PAQUETES
 @app.route('/', methods=['GET'])
 def get_paquetes():
     paquetes = Paquetes.query.all()
@@ -106,6 +107,7 @@ def delete(id):
     flash("El paquete se eliminó correctamente")
     return redirect(url_for ('get_paquetes'))
    
+#EMPLEADOS
 @app.route('/', methods=['GET'])
 def get_empleados():
     empleados = Empleados.query.all()
