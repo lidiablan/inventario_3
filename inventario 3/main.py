@@ -31,8 +31,6 @@ class Empleados(db.Model):
     id_empleado = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(255), nullable=False)
     #paquetes = db.relationship('Paquetes', backref='empleado', lazy=True)
-        
-#Vista de si esta minando o no
 
 @app.route('/', methods=['GET'])
 def get_paquetes():
@@ -61,7 +59,7 @@ def get_paquete(id):
 @app.route('/new', methods=['GET', 'POST'])
 def formulario(id):
     if request.method == 'POST':
-      empleado = int(request.form['registrador'])
+      id_empleado = int(request.form['id_empleado'])
       descripcion = request.form['descripcion']
       sn = request.form['sn']
       compañiaTransporte = request.form['compañiaTransporte']
@@ -72,7 +70,7 @@ def formulario(id):
       minando = True if 'minando' in request.form else False
       
       nuevo_paquete = Paquetes(
-          id_empleado=empleado,
+          id_empleado=id_empleado,
           descripcion=descripcion,
           sn=sn,
           compañiaTransporte=compañiaTransporte,
@@ -88,7 +86,7 @@ def formulario(id):
       return redirect('/' , str(nuevo_paquete.id))
     else:
         empleados = Empleados.query.all()
-        return render_template('index.html', empleado=empleados)
+        return render_template('/', empleado=empleados)
 
 @app.route('/update/<id>', methods=['GET', 'POST'])
 def update(id):
@@ -128,11 +126,11 @@ def get_empleado(id):
 def formularioEmpleado(id):
     if request.method == 'POST':
       nombre = request.form['nombre']
-      paquetes = request.form['paquetes']
+      #paquetes = request.form['paquetes']
       
       nuevo_empleado = Empleados(
           nombre=nombre,
-          paquetes=paquetes
+          #paquetes=paquetes
       )
       
       db.session.add(nuevo_empleado)
@@ -144,7 +142,7 @@ def updateEmpleado(id):
     empleado = Empleados.query.get(id)
     if request.method == 'POST':
       empleado.nombre = request.form["nombre"]
-      empleado.paquetes = request.form["paquetes"]
+      #empleado.paquetes = request.form["paquetes"]
       db.session.commit()
       flash("El empleado se modificó correctamente")
       return redirect(url_for('get_empleados'))
