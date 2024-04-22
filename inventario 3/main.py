@@ -9,6 +9,12 @@ app.config['SQLALCHEMY_RECORD_QUERIES'] = True
 
 db = SQLAlchemy(app)
 
+class Empleados(db.Model):
+    __tablename__ = "empleados"
+    id_empleado = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(255), nullable=False)
+    #paquetes = db.relationship('Paquetes', backref='empleado', lazy=True)
+    
 class Paquetes(db.Model):
     __tablename__ = "paquetes"
     id = db.Column(db.Integer, primary_key=True)
@@ -22,12 +28,6 @@ class Paquetes(db.Model):
     destino = db.Column(db.String(255), nullable=False)
     minando = db.Column(db.Boolean, default=False, nullable=False)
     id_empleado = db.Column(db.Integer, db.ForeignKey('empleados.id_empleado'), nullable = False)
-        
-class Empleados(db.Model):
-    __tablename__ = "empleados"
-    id_empleado = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(255), nullable=False)
-    #paquetes = db.relationship('Paquetes', backref='empleado', lazy=True)
 
 #PAQUETES
 @app.route('/', methods=['GET'])
