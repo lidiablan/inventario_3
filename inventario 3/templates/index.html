@@ -58,11 +58,11 @@
                     Añadir Paquete
                 </button>
             </a>
-            <a href="formularioEmpleado.html" class="bg-red-400 rounded-md w-36 h-11">
+            <!-- <a href="formularioEmpleado.html" class="bg-red-400 rounded-md w-36 h-11">
                 <button id="nueva" type="button" class="mt-2 ml-4 text-white">
                     Añadir Empleado
                 </button>
-            </a>
+            </a> -->
         </div>
     </div>
     <br>
@@ -87,7 +87,7 @@
                 {% for paquete in paquetes %}
                     <tr>
                         <td class="px-4 py-2 border text-center">{{ paquete.fecha_hora }}</td>
-                        <td class="px-4 py-2 border text-center">{{ paquete.id_emplado }}</td>
+                        <td class="px-4 py-2 border text-center">{{ paquete.id_empleado }}</td>
                         <td class="px-4 py-2 border text-center">{{ paquete.descripcion }}</td>
                         <td class="px-4 py-2 border text-center">{{ paquete.sn }}</td>
                         <td class="px-4 py-2 border text-center">{{ paquete.compañiaTransporte }}</td>
@@ -95,7 +95,7 @@
                         <td class="px-4 py-2 border text-center">{{ paquete.tipoProducto }}</td>
                         <td class="px-4 py-2 border text-center">{{ paquete.origen }}</td>
                         <td class="px-4 py-2 border text-center">{{ paquete.destino }}</td>
-                        <td class="px-4 py-2 border text-center">{{ paquete.minando }}</td>
+                        <td class="px-4 py-2 border text-center">{{ 'Verdadero' if paquete.minando else 'Falso' }}</td>
                         <td class="px-4 py-2 border text-center">
                             <a href="{{ url_for('update', id=paquete.id) }}"><button type="button" id="mod">📝</button></a>
                             <a href="{{ url_for('delete', id=paquete.id) }}"><button type="button" id="eliminar" onclick="eliminar()">🗑️</button></a>
@@ -106,13 +106,20 @@
         </table>
     </div>
     
-    <div id="modalCrear" class="modalmask" aria-hidden="true">
+    <div id="modalCrear" class="modalmask">
         <h3 class="mx-10 mt-2.5 text-3xl font-bold dark:text-white">Crear Paquete</h3><br>
         <div id="formulario" class="mx-10">
             <form action="/new" method="POST">
-                <label for="empleado" class="block text-sm font-medium leading-6 text-gray-900">Nombre del empleado</label>
+                <label for="empleado" class="block text-sm font-medium leading-6 text-gray-900">Nombre del empleado</label>   
                 <input type="text" id="registrar" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Registrar"><br><br>
-
+                <!-- <select name="registrador" id="" class="shadow border rounded w-full py2 px3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <select name="registrador" required>
+                        {% for empleado in empleados %}
+                            <option value="{{ empleado.id_empleado }}">{{ empleado.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </select> -->
+                
                 <label for="fechahora" class="block text-sm font-medium leading-6 text-gray-900">Fecha y hora</label>
                 <input type="datetime-local" id="fechahora" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"><br><br>
 
@@ -166,15 +173,13 @@
                     <button type="button" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 border border-gray-400 rounded shadow" id="cancelar" onClick = "reset()">
                         Cancelar
                     </button>
-                    <button type="button" id="confirmar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
-                        Confirmar
-                    </button>
+                    <input type="submit" id="confirmar" value="Confirmar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"/>
                 </div>
             </form>
         </div>
     <div>
 
-    <div id="modalEditar" class="modalmask" aria-hidden="true">
+    <div id="modalEditar" class="modalmask">
         <h3 class="mx-10 mt-2.5 text-3xl font-bold dark:text-white">Modificar Paquete</h3><br>
         <div id="formulario" class="mx-10">
             <form action="update/{paquete.id}">

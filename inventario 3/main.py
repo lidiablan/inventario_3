@@ -13,7 +13,7 @@ class Empleados(db.Model):
     __tablename__ = "empleados"
     id_empleado = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(255), nullable=False)
-    #paquetes = db.relationship('Paquetes', backref='empleado', lazy=True)
+    paquetes = db.relationship('Paquetes', backref='empleado', lazy=True)
     
 class Paquetes(db.Model):
     __tablename__ = "paquetes"
@@ -55,9 +55,9 @@ def get_paquete(id):
 
 @app.route('/')
 @app.route('/new', methods=['GET', 'POST'])
-def formulario(id):
+def formulario():
     if request.method == 'POST':
-      id_empleado = int(request.form['id_empleado'])
+      empleado = int(request.form['registrador'])
       descripcion = request.form['descripcion']
       sn = request.form['sn']
       compañiaTransporte = request.form['compañiaTransporte']
@@ -68,7 +68,7 @@ def formulario(id):
       minando = True if 'minando' in request.form else False
       
       nuevo_paquete = Paquetes(
-          id_empleado=id_empleado,
+          id_empleado=empleado,
           descripcion=descripcion,
           sn=sn,
           compañiaTransporte=compañiaTransporte,
@@ -125,11 +125,11 @@ def get_empleado(id):
 def formularioEmpleado(id):
     if request.method == 'POST':
       nombre = request.form['nombre']
-      #paquetes = request.form['paquetes']
+      paquetes = request.form['paquetes']
       
       nuevo_empleado = Empleados(
           nombre=nombre,
-          #paquetes=paquetes
+          paquetes=paquetes
       )
       
       db.session.add(nuevo_empleado)
