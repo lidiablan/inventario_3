@@ -1,6 +1,3 @@
-"""from fastapi import FastAPI, Path, Query
-from fastapi.responses import JSONResponse
- from config.database import Session """
 from flask import url_for, render_template, redirect, Flask, request, jsonify, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -25,12 +22,30 @@ class Paquetes(db.Model):
     destino = db.Column(db.String(255), nullable=False)
     minando = db.Column(db.Boolean, default=False, nullable=False)
     id_empleado = db.Column(db.Integer, db.ForeignKey('empleados.id_empleado'), nullable = False)
-
+    
+    def __init__(self, id, fecha_hora, id_empleado, descripcion, sn, compañiaTransporte, track, tipoProducto, origen, destino, minando):
+        self.id = id
+        self.fecha_hora = fecha_hora
+        self.id_empleado = id_empleado
+        self.descripcion = descripcion
+        self.sn = sn
+        self.compañiaTransporte = compañiaTransporte
+        self.track = track
+        self.tipoProducto = tipoProducto
+        self.origen = origen
+        self.destino = destino
+        self.minando = minando
+        
 class Empleados(db.Model):
     __tablename__ = "empleados"
     id_empleado = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(255), nullable=False)
     #paquetes = db.relationship('Paquetes', backref='empleado', lazy=True)
+    
+    def __init__(self, id_empleado, nombre, paquetes):
+        self.id_empleado = id_empleado
+        self.nombre = nombre
+        #self.paquetes = paquetes
 
 #PAQUETES
 @app.route('/', methods=['GET'])
@@ -87,7 +102,7 @@ def formulario(id):
       return redirect('/' , str(nuevo_paquete.id))
     else:
         empleados = Empleados.query.all()
-        return render_template('/', empleado=empleados)
+        return render_template('index.html', empleado=empleados)
 
 @app.route('/update/<id>', methods=['GET', 'POST'])
 def update(id):
