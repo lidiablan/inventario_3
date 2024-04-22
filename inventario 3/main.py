@@ -19,11 +19,11 @@ class Paquetes(db.Model):
     __tablename__ = "paquetes"
     id = db.Column(db.Integer, primary_key=True)
     fecha_hora = db.Column(db.DateTime, default=datetime.utcnow)
-    descripcion = db.Column(db.String(255), nullable=False)
+    descripcion = db.Column(db.String(180), nullable=False)
     sn = db.Column(db.String(255), nullable=False)
-    compañiaTransporte = db.Column(db.String(255), nullable=False)
+    compania_transporte = db.Column(db.String(255), nullable=False)
     track = db.Column(db.String(255), nullable=False)
-    tipoProducto = db.Column(db.String(255), nullable=False)
+    tipo_producto = db.Column(db.String(255), nullable=False)
     origen = db.Column(db.String(255), nullable=False)
     destino = db.Column(db.String(255), nullable=False)
     minando = db.Column(db.Boolean, default=False, nullable=False)
@@ -45,9 +45,9 @@ def get_paquete(id):
         'id_empleado': paquete.id_empleado,
         'descripcion' : paquete.descripcion,
         'sn' : paquete.sn,
-        'compañiaTransporte' : paquete.compañiaTransporte,
+        'compania_transporte' : paquete.compania_transporte,
         'track' : paquete.track,
-        'tipoProducto' : paquete.tipoProducto,
+        'tipo_producto' : paquete.tipo_producto,
         'origen' : paquete.origen,
         'destino' : paquete.destino,
         'minando' : paquete.minando,
@@ -60,9 +60,9 @@ def formulario():
       empleado = int(request.form['registrador'])
       descripcion = request.form['descripcion']
       sn = request.form['sn']
-      compañiaTransporte = request.form['compañiaTransporte']
+      compania_transporte = request.form['compania_transporte']
       track = request.form['track']
-      tipoProducto = request.form['tipoProducto']
+      tipo_producto = request.form['tipo_producto']
       origen = request.form['origen']
       destino = request.form['destino']
       minando = True if 'minando' in request.form else False
@@ -71,9 +71,9 @@ def formulario():
           id_empleado=empleado,
           descripcion=descripcion,
           sn=sn,
-          compañiaTransporte=compañiaTransporte,
+          compania_transporte=compania_transporte,
           track=track,
-          tipoProducto=tipoProducto,
+          tipo_producto=tipo_producto,
           origen=origen,
           destino=destino,
           minando=minando
