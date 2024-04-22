@@ -109,7 +109,7 @@
     <div id="modalCrear" class="modalmask">
         <h3 class="mx-10 mt-2.5 text-3xl font-bold dark:text-white">Crear Paquete</h3><br>
         <div id="formulario" class="mx-10">
-            <form action="/new" method="POST">
+            <form action="/" method="POST">
                 <label for="registrador" class="block text-sm font-medium leading-6 text-gray-900">Nombre del empleado</label>   
                 <input type="text" name="registrador" id="registrador" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Registrar"><br><br>
                 <!-- <select name="registrador" id="" class="shadow border rounded w-full py2 px3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
@@ -131,10 +131,10 @@
 
                 <label for="compania_transporte" class="block text-sm font-medium leading-6 text-gray-900">Compañia de Transporte</label>
                 <select id="compania_transporte" name="compania_transporte" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="seur">Seur</option>
-                    <option value="correos">Correos Express</option>
-                    <option value="dhl">DHL</option>
-                    <option value="ups">UPS</option>
+                    <option value="SEUR">Seur</option>
+                    <option value="Correos Express">Correos Express</option>
+                    <option value="DHL">DHL</option>
+                    <option value="UPS">UPS</option>
                 </select><br><br>
 
                 <label for="track" class="block text-sm font-medium leading-6 text-gray-900">Track</label>
@@ -148,17 +148,17 @@
 
                 <label for="origen" class="block text-sm font-medium leading-6 text-gray-900">Origen</label>
                 <select id="origen" name="origen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="china">China</option>
-                    <option value="españa">España</option>
-                    <option value="devolucion">Devolucion</option>
-                    <option value="oficina">Oficina</option>
+                    <option value="China">China</option>
+                    <option value="España">España</option>
+                    <option value="Devolucion">Devolucion</option>
+                    <option value="Oficina">Oficina</option>
                 </select><br><br>
 
                 <label for="destino" class="block text-sm font-medium leading-6 text-gray-900">Destino</label>
                 <select id="destino" name="destino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="hosting">Hosting</option>
-                    <option value="españa">España</option>
-                    <option value="otros">Otros</option>
+                    <option value="Hosting">Hosting</option>
+                    <option value="España">España</option>
+                    <option value="Otros">Otros</option>
                 </select><br><br>
 
                 <input type="checkbox" id="minando" name="minando" value="minando">
@@ -197,10 +197,10 @@
 
                 <label for="compañia" class="block text-sm font-medium leading-6 text-gray-900">Compañia de Transporte</label>
                 <select id="compañia" name="compañia" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
-                    <option value="seur">Seur</option>
-                    <option value="correos">Correos Express</option>
-                    <option value="dhl">DHL</option>
-                    <option value="ups">UPS</option>
+                    <option value="SEUR">Seur</option>
+                    <option value="correos express">Correos Express</option>
+                    <option value="DHL">DHL</option>
+                    <option value="UPS">UPS</option>
                 </select><br><br>
 
                 <label for="track" class="block text-sm font-medium leading-6 text-gray-900">Track</label>
@@ -214,17 +214,17 @@
 
                 <label for="origen" class="block text-sm font-medium leading-6 text-gray-900">Origen</label>
                 <select id="origen" name="origen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
-                    <option value="china">China</option>
-                    <option value="españa">España</option>
-                    <option value="devolucion">Devolucion</option>
-                    <option value="oficina">Oficina</option>
+                    <option value="China">China</option>
+                    <option value="España">España</option>
+                    <option value="Devolucion">Devolucion</option>
+                    <option value="Oficina">Oficina</option>
                 </select><br><br>
 
                 <label for="destino" class="block text-sm font-medium leading-6 text-gray-900">Destino</label>
                 <select id="destino" name="destino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
-                    <option value="hosting">Hosting</option>
-                    <option value="españa">España</option>
-                    <option value="otros">Otros</option>
+                    <option value="Hosting">Hosting</option>
+                    <option value="España">España</option>
+                    <option value="Otros">Otros</option>
                 </select><br><br>
 
                 <input type="checkbox" id="minando" name="minando" value="minando">

@@ -54,7 +54,7 @@ def get_paquete(id):
     })
 
 @app.route('/')
-@app.route('/new', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def formulario():
     if request.method == 'POST':
       empleado = int(request.form['registrador'])
@@ -117,7 +117,7 @@ def get_empleado(id):
     return jsonify({
         'id': empleado.id,
         'nombre': empleado.nombre,
-        #'paquetes': empleado.paquete,
+        'paquetes': empleado.paquete,
     })
 
 @app.route('/')
@@ -141,7 +141,7 @@ def updateEmpleado(id):
     empleado = Empleados.query.get(id)
     if request.method == 'POST':
       empleado.nombre = request.form["nombre"]
-      #empleado.paquetes = request.form["paquetes"]
+      empleado.paquetes = request.form["paquetes"]
       db.session.commit()
       flash("El empleado se modificó correctamente")
       return redirect(url_for('get_empleados'))
@@ -158,10 +158,6 @@ def deleteEmpleado(id):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-with app.app_context():
-    db.create_all()
-
 '''
 #Ver todos los empleados de baja
 @app.get('/empleadosBaja', tags=['empleadosBaja'], response_model=dict, status_code=200)
