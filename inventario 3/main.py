@@ -6,6 +6,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://Prueba3:Practicas2024%40@92.222.101.198/inventario3'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://lidia:abc123..@localhost/inventario3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_RECORD_QUERIES'] = True
 
 db = SQLAlchemy(app)
 
@@ -23,7 +24,7 @@ class Paquetes(db.Model):
     minando = db.Column(db.Boolean, default=False, nullable=False)
     id_empleado = db.Column(db.Integer, db.ForeignKey('empleados.id_empleado'), nullable = False)
     
-    def __init__(self, id, fecha_hora, id_empleado, descripcion, sn, compañiaTransporte, track, tipoProducto, origen, destino, minando):
+    """ def __init__(self, id, fecha_hora, id_empleado, descripcion, sn, compañiaTransporte, track, tipoProducto, origen, destino, minando):
         self.id = id
         self.fecha_hora = fecha_hora
         self.id_empleado = id_empleado
@@ -34,7 +35,7 @@ class Paquetes(db.Model):
         self.tipoProducto = tipoProducto
         self.origen = origen
         self.destino = destino
-        self.minando = minando
+        self.minando = minando """
         
 class Empleados(db.Model):
     __tablename__ = "empleados"
@@ -42,10 +43,10 @@ class Empleados(db.Model):
     nombre = db.Column(db.String(255), nullable=False)
     #paquetes = db.relationship('Paquetes', backref='empleado', lazy=True)
     
-    def __init__(self, id_empleado, nombre, paquetes):
+    """ def __init__(self, id_empleado, nombre, paquetes):
         self.id_empleado = id_empleado
         self.nombre = nombre
-        #self.paquetes = paquetes
+        #self.paquetes = paquetes """
 
 #PAQUETES
 @app.route('/', methods=['GET'])
@@ -176,6 +177,9 @@ def deleteEmpleado(id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+with app.app_context():
+    db.create_all()
 
 '''
 #Ver todos los empleados de baja
