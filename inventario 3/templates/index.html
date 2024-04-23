@@ -28,11 +28,6 @@
             pointer-events:auto;
             z-index: 10;
         }
-
-        #modalEditar:target{
-            opacity:1;
-            pointer-events:auto;
-        }
     </style>
     <script>
         function reset(){  
@@ -95,14 +90,15 @@
                         <td class="px-4 py-2 border text-center">{{ paquete.tipo_producto }}</td>
                         <td class="px-4 py-2 border text-center">{{ paquete.origen }}</td>
                         <td class="px-4 py-2 border text-center">{{ paquete.destino }}</td>
-                        <td class="px-4 py-2 border text-center">{{ 'Verdadero' if paquete.minando else 'Falso' }}</td>
+                        <td class="px-4 py-2 border text-center">{{ paquete.minando }}</td>
                         <td class="px-4 py-2 border text-center">
-                            <a href="{{ url_for('app.update', id=paquete.id) }}"><button type="button" id="mod">📝</button></a>
-                            <a href="{{ url_for('app.delete', id=paquete.id) }}"><button type="button" id="eliminar" onclick="eliminar()">🗑️</button></a>
+                            <a href="{{ url_for('update', id=paquete.id) }}"><button type="button" id="mod">📝</button></a>
+                            <a href="{{ url_for('delete', id=paquete.id) }}"><button type="button" id="eliminar" onclick="eliminar()">🗑️</button></a>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
+            
         </table>
     </div>
     

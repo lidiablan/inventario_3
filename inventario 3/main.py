@@ -13,7 +13,15 @@ class Empleados(db.Model):
     __tablename__ = "empleados"
     id_empleado = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(255), nullable=False)
-    paquetes = db.relationship('Paquetes', backref='empleado', lazy=True)
+    paquetes = db.Column(db.Integer, db.ForeignKey('paquetes.id'), nullable = False)
+
+'''
+class Empleado_Baja(db.Model):
+    __tablename__ = "empleado_baja"
+    id = db.Column(db.Integer, primary_key=True)
+    id_empleado = db.Column(db.Integer, db.ForeignKey('empleados.id_empleado'), nullable = False)
+    fecha_hora = db.Column(db.DateTime, default=datetime.utcnow)
+'''
     
 class Paquetes(db.Model):
     __tablename__ = "paquetes"
@@ -28,29 +36,43 @@ class Paquetes(db.Model):
     destino = db.Column(db.String(255), nullable=False)
     minando = db.Column(db.Boolean, default=False, nullable=False)
     id_empleado = db.Column(db.Integer, db.ForeignKey('empleados.id_empleado'), nullable = False)
+    
+""" 
+class Paquetes_Devueltos(ddb.Model):
+    __tablename__ = "paquetes_devueltos"
+    id = db.Column(db.Integer, primary_key=True)
+    id_paquete = db.Column(db.Integer, db.ForeignKey('paquetes.id'), nullable = False)
+    
+class Paquetes_Recogidos(Base):
+    __tablename__ = "paquetes_recogidos"
+    id = db.Column(db.Integer, primary_key=True)
+    id_paquete = db.Column(db.Integer, db.ForeignKey('paquetes.id'), nullable = False)
+    id_empleado = db.Column(db.Integer, db.ForeignKey('empleados.id_empleado'), nullable = False)
+    fecha_hora = db.Column(db.DateTime, default=datetime.utcnow)
+"""
 
 #PAQUETES
 @app.route('/', methods=['GET'])
 def get_paquetes():
     paquetes = Paquetes.query.all()
-    return render_template('index.html', paquete=paquetes)
+    return render_template('index.html', paquetes=paquetes)
 
 @app.route('/')
 @app.route('/index/<id>', methods=['GET'])
 def get_paquete(id):
-    paquete = Paquetes.query.get_or_404(id)
+    paquetes = Paquetes.query.get_or_404(id)
     return jsonify({
-        'id': paquete.id,
-        'fecha_hora': paquete.fecha_hora,
-        'id_empleado': paquete.id_empleado,
-        'descripcion' : paquete.descripcion,
-        'sn' : paquete.sn,
-        'compania_transporte' : paquete.compania_transporte,
-        'track' : paquete.track,
-        'tipo_producto' : paquete.tipo_producto,
-        'origen' : paquete.origen,
-        'destino' : paquete.destino,
-        'minando' : paquete.minando,
+        'id': paquetes.id,
+        'fecha_hora': paquetes.fecha_hora,
+        'id_empleado': paquetes.id_empleado,
+        'descripcion' : paquetes.descripcion,
+        'sn' : paquetes.sn,
+        'compania_transporte' : paquetes.compania_transporte,
+        'track' : paquetes.track,
+        'tipo_producto' : paquetes.tipo_producto,
+        'origen' : paquetes.origen,
+        'destino' : paquetes.destino,
+        'minando' : paquetes.minando,
     })
 
 @app.route('/')
