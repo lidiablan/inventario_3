@@ -97,8 +97,8 @@
                         <td class="px-4 py-2 border text-center">{{ paquete.destino }}</td>
                         <td class="px-4 py-2 border text-center">{{ 'Verdadero' if paquete.minando else 'Falso' }}</td>
                         <td class="px-4 py-2 border text-center">
-                            <a href="{{ url_for('update', id=paquete.id) }}"><button type="button" id="mod">📝</button></a>
-                            <a href="{{ url_for('delete', id=paquete.id) }}"><button type="button" id="eliminar" onclick="eliminar()">🗑️</button></a>
+                            <a href="{{ url_for('app.update', id=paquete.id) }}"><button type="button" id="mod">📝</button></a>
+                            <a href="{{ url_for('app.delete', id=paquete.id) }}"><button type="button" id="eliminar" onclick="eliminar()">🗑️</button></a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -112,13 +112,13 @@
             <form action="/" method="POST">
                 <label for="registrador" class="block text-sm font-medium leading-6 text-gray-900">Nombre del empleado</label>   
                 <input type="text" name="registrador" id="registrador" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Registrar"><br><br>
-                <!-- <select name="registrador" id="" class="shadow border rounded w-full py2 px3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <select name="registrador" id="registrador" class="shadow border rounded w-full py2 px3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     <select name="registrador" required>
                         {% for empleado in empleados %}
                             <option value="{{ empleado.id_empleado }}">{{ empleado.nombre }}</option>
                         {% endfor %}
                     </select>
-                </select> -->
+                </select>
 
                 <label for="fechahora" class="block text-sm font-medium leading-6 text-gray-900">Fecha y hora</label>
                 <input type="datetime-local" id="fechahora" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"><br><br>
@@ -183,8 +183,8 @@
         <h3 class="mx-10 mt-2.5 text-3xl font-bold dark:text-white">Modificar Paquete</h3><br>
         <div id="formulario" class="mx-10">
             <form action="update/{paquete.id}">
-                <label for="empleado" class="block text-sm font-medium leading-6 text-gray-900">Nombre del empleado</label>
-                <input type="text" id="registrar" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{paquete.id_empleado}}" disabled><br><br>
+                <label for="registrador" class="block text-sm font-medium leading-6 text-gray-900">Nombre del empleado</label>
+                <input type="text" name="registrador" id="registrador" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{paquete.id_empleado}}" disabled><br><br>
 
                 <label for="fecha_hora" class="block text-sm font-medium leading-6 text-gray-900">Fecha y hora</label>
                 <input type="datetime-local" id="fecha_hora" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{paquete.fecha_hora}}" disabled><br><br>
@@ -198,7 +198,7 @@
                 <label for="compania_transporte" class="block text-sm font-medium leading-6 text-gray-900">Compañia de Transporte</label>
                 <select id="compania_transporte" name="compania_transporte" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ paquete.compania_transporte}}" disabled>
                     <option value="SEUR">Seur</option>
-                    <option value="correos express">Correos Express</option>
+                    <option value="Correos Express">Correos Express</option>
                     <option value="DHL">DHL</option>
                     <option value="UPS">UPS</option>
                 </select><br><br>
@@ -207,7 +207,7 @@
                 <input type="text" id="track" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{paquete.track}}" disabled><br><br>
 
                 <label for="tipo_producto" class="block text-sm font-medium leading-6 text-gray-900">Tipo de Producto</label>
-                <select id="tipo" name="tipo_producto" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                <select id="tipo_producto" name="tipo_producto" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
                     <option value="E-Commerce">E-Commerce</option>
                     <option value="Minando">Minando</option>
                 </select><br><br>
@@ -227,7 +227,7 @@
                     <option value="Otros">Otros</option>
                 </select><br><br>
 
-                <input type="checkbox" id="minando" name="minando" value="minando">
+                <input type="checkbox" id="minando" name="minando" value="{{ paquete.minando }}">
                 <label for="minando"> Minando</label><br><br>
 
                 <div id="botones" class="bg-slate-300 h-11 text-center">
@@ -236,9 +236,7 @@
                             Cerrar
                         </button>
                     </a>
-                    <button type="button" id="confirmar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
-                        Confirmar
-                    </button>
+                    <input type="submit" id="confirmar" value="Confirmar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"/>
                 </div>
             </form>
         </div>

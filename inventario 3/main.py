@@ -81,28 +81,27 @@ def formulario():
       
       db.session.add(nuevo_paquete)
       db.session.commit()
-      return redirect('/' , str(nuevo_paquete.id))
+      return redirect('formularioalta.html' , str(nuevo_paquete.id))
     else:
         empleados = Empleados.query.all()
         return render_template('index.html', empleado=empleados)
 
 @app.route('/update/<id>', methods=['GET', 'POST'])
 def update(id):
-    paquete = Paquetes.query.get(id)
+    paquete = Paquetes.query.get_or_404(id)
     if request.method == 'POST':
       paquete.minando = True if 'minando' in request.form else False
       db.session.commit()
       return redirect(url_for('get_paquetes'))
     
-    return render_template('formulario mod.html', paquete=paquete)
+    return render_template('formulariomod.html', paquete=paquete)
 
-@app.route('/delete/<id>', methods=['DELETE'])
+@app.route('/delete/<id>')
 def delete(id):
-    paquete = Paquetes.query.get_or_404(id)
+    paquete = Paquetes.query.get(id)
     db.session.delete(paquete)
     db.session.commit()
-    flash("El paquete se eliminó correctamente")
-    return redirect(url_for ('get_paquetes'))
+    return redirect('/')
    
 #EMPLEADOS
 @app.route('/', methods=['GET'])
