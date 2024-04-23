@@ -5,7 +5,6 @@ from datetime import datetime
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://Prueba3:Practicas2024%40@92.222.101.198/inventario3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_RECORD_QUERIES'] = True
 
 db = SQLAlchemy(app)
 
@@ -15,14 +14,6 @@ class Empleados(db.Model):
     nombre = db.Column(db.String(255), nullable=False)
     paquetes = db.Column(db.Integer, db.ForeignKey('paquetes.id'), nullable = False)
 
-'''
-class Empleado_Baja(db.Model):
-    __tablename__ = "empleado_baja"
-    id = db.Column(db.Integer, primary_key=True)
-    id_empleado = db.Column(db.Integer, db.ForeignKey('empleados.id_empleado'), nullable = False)
-    fecha_hora = db.Column(db.DateTime, default=datetime.utcnow)
-'''
-    
 class Paquetes(db.Model):
     __tablename__ = "paquetes"
     id = db.Column(db.Integer, primary_key=True)
@@ -38,6 +29,12 @@ class Paquetes(db.Model):
     id_empleado = db.Column(db.Integer, db.ForeignKey('empleados.id_empleado'), nullable = False)
     
 """ 
+class Empleado_Baja(db.Model):
+    __tablename__ = "empleado_baja"
+    id = db.Column(db.Integer, primary_key=True)
+    id_empleado = db.Column(db.Integer, db.ForeignKey('empleados.id_empleado'), nullable = False)
+    fecha_hora = db.Column(db.DateTime, default=datetime.utcnow)
+
 class Paquetes_Devueltos(db.Model):
     __tablename__ = "paquetes_devueltos"
     id = db.Column(db.Integer, primary_key=True)
@@ -76,7 +73,7 @@ def get_paquete(id):
     })
 
 @app.route('/')
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['POST'])
 def formulario():
     if request.method == 'POST':
       empleado = int(request.form['registrador'])
@@ -88,7 +85,7 @@ def formulario():
       origen = request.form['origen']
       destino = request.form['destino']
       minando = True if 'minando' in request.form else False
-      
+
       nuevo_paquete = Paquetes(
           id_empleado=empleado,
           descripcion=descripcion,
@@ -112,9 +109,10 @@ def formulario():
 def update(id):
     paquete = Paquetes.query.get_or_404(id)
     if request.method == 'POST':
-      paquete.minando = True if 'minando' in request.form else False
+      #paquete.minando = True if 'minando' in request.form else False
+      paquete.minando = request.form["minando"]
       db.session.commit()
-      return redirect(url_for('/'))
+      return redirect(url_for('get_paquetes'))
     
     return render_template('formulariomod.html', paquete=paquete)
 
@@ -142,7 +140,7 @@ def get_empleado(id):
     })
 
 @app.route('/')
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/formularioEmpleado.html', methods=['GET', 'POST'])
 def formularioEmpleado(id):
     if request.method == 'POST':
       nombre = request.form['nombre']
