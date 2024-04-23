@@ -81,7 +81,7 @@ def formulario():
       
       db.session.add(nuevo_paquete)
       db.session.commit()
-      return redirect('formularioalta.html' , str(nuevo_paquete.id))
+      return redirect('/' , str(nuevo_paquete.id))
     else:
         empleados = Empleados.query.all()
         return render_template('index.html', empleado=empleados)
