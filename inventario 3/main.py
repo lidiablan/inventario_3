@@ -12,7 +12,7 @@ class Empleados(db.Model):
     __tablename__ = "empleados"
     id_empleado = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(255), nullable=False)
-    paquetes = db.Column(db.Integer, db.ForeignKey('paquetes.id'), nullable = False)
+    paquetes = db.Column(db.Integer, nullable = False)
 
 class Paquetes(db.Model):
     __tablename__ = "paquetes"
@@ -127,7 +127,7 @@ def delete(id):
 @app.route('/', methods=['GET'])
 def get_empleados():
     empleados = Empleados.query.all()
-    return render_template('index.html', empleados=empleados)
+    return render_template('index.html')
 
 @app.route('/')
 @app.route('/index/<id>', methods=['GET'])
@@ -139,9 +139,8 @@ def get_empleado(id):
         'paquetes': empleado.paquete,
     })
 
-@app.route('/')
-@app.route('/formularioEmpleado.html', methods=['GET', 'POST'])
-def formularioEmpleado(id):
+@app.route('/empleado', methods=['POST'])
+def formularioEmpleado():
     if request.method == 'POST':
       nombre = request.form['nombre']
       paquetes = request.form['paquetes']
@@ -154,8 +153,11 @@ def formularioEmpleado(id):
       db.session.add(nuevo_empleado)
       db.session.commit()
       return redirect('/' , str(nuevo_empleado.id))
+    else:
+        empleados = Empleados.query.all()
+        return render_template('formularioEmpleado.html', empleado=empleados)
 
-@app.route('/update/<id>', methods=['GET', 'POST'])
+@app.route('/updateEmpleado/<id>', methods=['GET', 'POST'])
 def updateEmpleado(id):
     empleado = Empleados.query.get(id)
     if request.method == 'POST':
@@ -165,9 +167,9 @@ def updateEmpleado(id):
       flash("El empleado se modificó correctamente")
       return redirect(url_for('get_empleados'))
     
-    return render_template('empleadomod.html', empleado=empleado)
+    return render_template('formularioModEmpleado.html', empleado=empleado)
 
-@app.route('/delete/<id>', methods=['DELETE'])
+@app.route('/deleteEmpleado/<id>')
 def deleteEmpleado(id):
     empleado = Empleados.query.get_or_404(id)
     db.session.delete(empleado)
@@ -220,7 +222,7 @@ def updateEmpleadoBaja(id):
     
     return render_template('empleadomod.html', empleado=empleado)
 
-@app.route('/delete/<id>', methods=['DELETE'])
+@app.route('/delete/<id>')
 def deleteEmpleadoBaja(id):
     empleadoBaja = Empleado_Baja.query.get_or_404(id)
     db.session.delete(empleadoBaja)
