@@ -38,12 +38,12 @@ class Paquetes(db.Model):
     id_empleado = db.Column(db.Integer, db.ForeignKey('empleados.id_empleado'), nullable = False)
     
 """ 
-class Paquetes_Devueltos(ddb.Model):
+class Paquetes_Devueltos(db.Model):
     __tablename__ = "paquetes_devueltos"
     id = db.Column(db.Integer, primary_key=True)
     id_paquete = db.Column(db.Integer, db.ForeignKey('paquetes.id'), nullable = False)
     
-class Paquetes_Recogidos(Base):
+class Paquetes_Recogidos(db.Model):
     __tablename__ = "paquetes_recogidos"
     id = db.Column(db.Integer, primary_key=True)
     id_paquete = db.Column(db.Integer, db.ForeignKey('paquetes.id'), nullable = False)
@@ -114,7 +114,7 @@ def update(id):
     if request.method == 'POST':
       paquete.minando = True if 'minando' in request.form else False
       db.session.commit()
-      return redirect(url_for('get_paquetes'))
+      return redirect(url_for('/'))
     
     return render_template('formulariomod.html', paquete=paquete)
 
@@ -177,100 +177,159 @@ def deleteEmpleado(id):
     flash("El empleado se eliminó correctamente")
     return redirect(url_for ('get_empleados'))
 
+'''
+#EMPLEADOS DE BAJA
+@app.route('/', methods=['GET'])
+def get_empleados_baja():
+    empleadosBaja = Empleado_Baja.query.all()
+    return render_template('index.html', empleados=empleadosBaja)
+
+@app.route('/')
+@app.route('/index/<id>', methods=['GET'])
+def get_empleado_baja(id):
+    empleadoBaja = Empleado_Baja.query.get_or_404(id)
+    return jsonify({
+        'id': empleadoBaja.id,
+        'id_empleado': empleadoBaja.id_empleado,
+        'fecha_hora': empleadoBaja.fecha_hora
+    })
+
+@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
+def formularioEmpleadoBaja(id):
+    if request.method == 'POST':
+      id_empleado = request.form['id_empleado']
+      fecha_hora = request.form['fecha_hora']
+      
+      nuevo_empleado_baja = Empleado_Baja(
+          id_empleado=id_empleado,
+          fecha_hora=fecha_hora
+      )
+      
+      db.session.add(nuevo_empleado_baja)
+      db.session.commit()
+      return redirect('/' , str(nuevo_empleado_baja.id))
+
+@app.route('/update/<id>', methods=['GET', 'POST'])
+def updateEmpleadoBaja(id):
+    empleadoBaja = Empleado_Baja.query.get(id)
+    if request.method == 'POST':
+      empleadoBaja.id_empleado = request.form["id_empleado"]
+      empleadoBaja.fecha_hora = request.form["fecha_hora"]
+      db.session.commit()
+      flash("El empleado de baja se modificó correctamente")
+      return redirect(url_for('get_empleados_baja'))
+    
+    return render_template('empleadomod.html', empleado=empleado)
+
+@app.route('/delete/<id>', methods=['DELETE'])
+def deleteEmpleadoBaja(id):
+    empleadoBaja = Empleado_Baja.query.get_or_404(id)
+    db.session.delete(empleadoBaja)
+    db.session.commit()
+    flash("El empleado de baja se eliminó correctamente")
+    return redirect(url_for ('get_empleados'))
+
+#PAQUETES DEVUELTOS
+@app.route('/', methods=['GET'])
+def get_paquetes_devueltos():
+    paquetesDevueltos = Paquetes_Devueltos.query.all()
+    return render_template('index.html', paquetes=paquetesDevueltos)
+
+@app.route('/')
+@app.route('/index/<id>', methods=['GET'])
+def get_paquete_devuelto(id):
+    paquetesDevueltos = Paquetes_Devueltos.query.get_or_404(id)
+    return jsonify({
+        'id': paquetesDevueltos.id,
+        'id_paquete': paquetesDevueltos.id_paquete,
+    })
+
+@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
+def formularioPaqueteDevuelto():
+    if request.method == 'POST':
+      id_paquete = request.form['id_paquete']
+      
+      nuevo_paquete_devuelto = Paquetes_Devueltos(
+          id_paquete=id_paquete,
+      )
+      
+      db.session.add(nuevo_paquete_devuelto)
+      db.session.commit()
+      return redirect('/' , str(nuevo_paquete_devuelto.id))
+
+@app.route('/update/<id>', methods=['GET', 'POST'])
+def updatePaqueteDevuelto(id):
+    paqueteDevuelto = Paquetes_Devueltos.query.get_or_404(id)
+    if request.method == 'POST':
+      paqueteDevuelto.id_paquete = request.form["id_paquete"]
+      db.session.commit()
+      return redirect(url_for('/'))
+    
+    return render_template('formulariomod.html', paquete=paquete)
+
+@app.route('/delete/<id>')
+def deletePaqueteDevuelto(id):
+    paqueteDevuelto = Paquetes_Devueltos.query.get(id)
+    db.session.delete(paqueteDevuelto)
+    db.session.commit()
+    return redirect('/')
+
+#PAQUETES RECOGIDOS
+@app.route('/', methods=['GET'])
+def get_paquetes_recogidos():
+    paquetesRecogidos = Paquetes_Recogidos.query.all()
+    return render_template('index.html', paquetes=paquetesRecogidos)
+
+@app.route('/')
+@app.route('/index/<id>', methods=['GET'])
+def get_paquete_recogido(id):
+    paquetesRecogidos = Paquetes_Recogidos.query.get_or_404(id)
+    return jsonify({
+        'id': paquetesRecogidos.id,
+        'id_paquete': paquetesRecogidos.id_paquete,
+        'id_empleado': paquetesRecogidos.id_empleado,
+        'fecha_hora': paquetesRecogidos.fecha_hora,
+    })
+
+@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
+def formularioPaqueteRecogido():
+    if request.method == 'POST':
+      id_paquete = request.form['id_paquete']
+      id_empleado = request.form['id_empleado']
+      fecha_hora = request.form['fecha_hora']
+      
+      nuevo_paquete_recogido = Paquetes_Recogidos(
+          id_paquete=id_paquete,
+          id_empleado=id_empleado,
+          fecha_hora=fecha_hora,
+      )
+      
+      db.session.add(nuevo_paquete_recogido)
+      db.session.commit()
+      return redirect('/' , str(nuevo_paquete_recogido.id))
+
+@app.route('/update/<id>', methods=['GET', 'POST'])
+def updatePaqueteRecogido(id):
+    paqueteRecogido = Paquetes_Recogidos.query.get_or_404(id)
+    if request.method == 'POST':
+      paqueteRecogido.id_paquete = request.form["id_paquete"]
+      paqueteRecogido.id_empleado = request.form["id_empleado"]
+      paqueteRecogido.fecha_hora = request.form["fecha_hora"]
+      db.session.commit()
+      return redirect(url_for('/'))
+    
+    return render_template('formulariomod.html', paquete=paquete)
+
+@app.route('/delete/<id>')
+def deletePaqueteRecogido(id):
+    paqueteRecogido = Paquetes_Recogidos.query.get(id)
+    db.session.delete(paqueteRecogido)
+    db.session.commit()
+    return redirect('/')
+'''
+
 if __name__ == '__main__':
     app.run(debug=True)
-'''
-#Ver todos los empleados de baja
-@app.get('/empleadosBaja', tags=['empleadosBaja'], response_model=dict, status_code=200)
-def get_empleados_baja(self):
-    result = self.db.query(EmpleadosBajaModel).all()
-    return result
-
-#Metodo para crear un empleado de baja
-@app.post('/empleadosBaja', tags=['empleadosBaja'], response_model=dict, status_code=201)
-def create_empleadoBaja(self, empleado: Empleados) -> dict:
-    new_empleado_baja = EmpleadosBajaModel(**empleado.dict())
-    self.db.add(new_empleado_baja)
-    self.db.commit()
-    return JSONResponse(status_code=201, content={"message": "Se ha registrado el empleado que esta de baja"})
-
-#Metodo para modificar un empleado de baja
-@app.put('/empleadosBaja/{id}', tags=['empleadosBaja'], response_model=dict, status_code=200)
-def update_empleado_baja(self, id: int, data: Empleados)-> dict:
-    empleadoBaja = self.db.query(EmpleadosBajaModel).filter(EmpleadosBajaModel.id == id).first()
-    empleadoBaja.nombre = data.nombre
-    empleadoBaja.fecha_hora = data.fecha_hora
-    self.db.commit()
-    return JSONResponse(status_code=200, content={"message": "Se ha modificado el empleado de baja"})
-
-#Metodo para eliminar un empleado de baja
-@app.delete('/empleadosBaja/{id}', tags=['empleadosBaja'], response_model=dict, status_code=200)
-def delete_empleado_baja(self, id: int)-> dict:
-    self.db.query(EmpleadosBajaModel).filter(EmpleadosBajaModel.id == id).delete()
-    self.db.commit()
-    return JSONResponse(status_code=200, content={"message": "Se ha eliminado el empleado de baja"})
-
-    self.db.query(PaquetesModel).filter(PaquetesModel.id == id).delete()
-    self.db.commit()
-    return JSONResponse(status_code=200, content={"message": "Se ha eliminado el paquete"})
-
-#Ver todos los paquetes devueltos
-@app.get('/paquetesDevueltos', tags=['paquetesDevueltos'], response_model=dict, status_code=200)
-def get_paquetes_devueltos(self):
-    result = self.db.query(PaquetesDevueltosModel).all()
-    return result
-
-#Metodo para modificar un paquete devuelto
-@app.put('/paquetesDevueltos/{id}', tags=['paquetesDevueltos'], response_model=dict, status_code=200)
-def update_paquete_devuelto(self, id: int, movie: Paquetes)-> dict:
-    paquetesDevuelto = self.db.query(PaquetesDevueltosModel).filter(PaquetesDevueltosModel.id == id).first()
-    paquetesDevuelto.id = data.id
-    paquetesDevuelto.id_paquete = data.id_paquete
-    self.db.commit()
-    return JSONResponse(status_code=200, content={"message": "Se ha modificado el paquete devuelto"})
-
-#Metodo para eliminar un paquete devuelto
-@app.delete('/paquetesDevueltos/{id}', tags=['paquetesDevueltos'], response_model=dict, status_code=200)
-def delete_paquete_devuelto(self, id: int)-> dict:
-    self.db.query(PaquetesDevueltosModel).filter(PaquetesDevueltosModel.id == id).delete()
-    self.db.commit()
-    return JSONResponse(status_code=200, content={"message": "Se ha eliminado el paquete devuelto"})
-
-#Ver todos los paquetes recogidos
-@app.get('/paquetesRecogidos', tags=['paquetesRecogidos'], response_model=dict, status_code=200)
-def get_paquetes_recogidos(self):
-    result = self.db.query(PaquetesRecogidosModel).all()
-    return result
-
-#Ver un paquete recogido por su id
-@app.get('/paquetesRecogidos/{id}', tags=['paquetesRecogidos'], response_model=dict)
-def get_paquete_recogido(self, id: int = Path(ge=1, le=2000)):
-    result = self.db.query(PaquetesRecogidosModel).filter(PaquetesRecogidosModel.id == id).first()
-    return result
-
-#Metodo para crear un paquete recogido
-@app.post('/paquetesRecogido', tags=['paquetesRecogido'], response_model=dict, status_code=201)
-def create_paquete_recogido(paquete: Paquetes) -> dict:
-    new_paquete_recogido = PaquetesRecogidosModel(**paquete.dict())
-    self.db.add(new_paquete_recogido)
-    self.db.commit()
-    return JSONResponse(status_code=201, content={"message": "Se ha registrado el paquete recogido"})
-
-#Metodo para modificar un paquete recogido
-@app.put('/paquetes/{id}', tags=['paquetes'], response_model=dict, status_code=200)
-def update_paquete_recogido(self, id: int, movie: Paquetes)-> dict:
-    paquetesRecogido = self.db.query(PaquetesRecogidosModel).filter(PaquetesRecogidosModel.id == id).first()
-    paquetesRecogido.id = data.id
-    paquetesRecogido.id_paquete = data.id_paquete
-    paquetesRecogido.id_empleado = data.id_empleado
-    paquetesRecogido.fecha_hora = data.fecha_hora
-    self.db.commit()
-    return JSONResponse(status_code=200, content={"message": "Se ha modificado el paquete recogido"})
-
-#Metodo para eliminar un paquete recogido
-@app.delete('/paquetesRecogidos/{id}', tags=['paquetesRecogidos'], response_model=dict, status_code=200)
-def delete_paquete_recogido(self, id: int)-> dict:
-    self.db.query(PaquetesRecogidosModel).filter(PaquetesRecogidosModel.id == id).delete()
-    self.db.commit()
-    return JSONResponse(status_code=200, content={"message": "Se ha eliminado el paquete recogido"})
-'''
