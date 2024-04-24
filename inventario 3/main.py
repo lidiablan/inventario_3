@@ -27,7 +27,6 @@ class Paquetes(db.Model):
     minando = db.Column(db.Boolean, nullable=False)
     id_empleado = db.Column(db.Integer, db.ForeignKey('empleados.id_empleado'), nullable = False)
 
-
 #PAQUETES
 @app.route('/', methods=['GET'])
 def get_paquetes():

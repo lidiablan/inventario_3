@@ -7,52 +7,152 @@
     <title>Inventario</title>
     <style>
         .modalmask{
+            background-color: white;
+            bottom: 0;
             top:0;
-            right:0;
-            bottom:0;
-            left:0;
-            opacity:0;
-            pointer-events:none;
-            z-index: 50;
-            #contedor{
-                background-color: rgba(255,255,255, 0.5);
-                color: white;
-                opacity: 0;
-                z-index: 0;
-            }
+            left: 0;
+            right: 0;
+            position: absolute;
+            display: none;
+            z-index: 2;
         }
 
-        #modalCrear:target{
-            opacity:1;
-            pointer-events:auto;
-            z-index: 10;
+        #formulario{
+            background-color: white;
+            border: 1px solid rgb(190, 190, 190);
+            color: #fff;
+            margin: auto;
+            padding: 20px;
+            width: 90%;
         }
+
+        .modalmask:target{
+            display: block;
+        }
+        /*
+        #e-commerce{
+            background-color: white;
+        }
+        #mineria{
+            background-color: white;
+        }
+        */
     </style>
 </head>
 <body>
     <div id="contedor" class="ml-8 mt-6">
         <h1 class="text-4xl font-extrabold dark:text-black">Panel de Gestión de Pedidos</h1>
         <div class="flex mt-3 space-x-3">
-            <!-- Esta tarxeta dará acceso á compoñente ENGADIR -->
             <div id="guardar" class="bg-lime-500 rounded-md w-36 h-11">
                 <p class="mt-2 ml-3 text-white">Guardar Cambios</p>
             </div>
-            <!-- Esta tarxeta dará acceso á compoñente CONSULTAR -->
             <a href="#modalCrear" class="bg-sky-700 rounded-md w-36 h-11">
                 <button id="nueva" type="button" class="mt-2 ml-4 text-white">
                     Añadir Paquete
                 </button>
             </a>
-            <!-- 
-            <a href="formularioEmpleado.html" class="bg-red-400 rounded-md w-36 h-11">
-                <button id="nueva" type="button" class="mt-2 ml-4 text-white">
-                    Añadir Empleado
-                </button>
-            </a> 
-            -->
         </div>
     </div>
     <br>
+    <!--
+    <div>
+        <ul class="items-center w-full text-sm font-medium text-gray-900 bg-white sm:flex dark:bg-gray-800 dark:text-white">
+            <li class="w-full">
+                <div class="flex items-center ps-4">
+                    <a href="#e-commerce"><label id="e-commerce" for="e-commerce" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">E-Commerce</label></a>
+                </div>
+            </li>
+            <li class="w-full ">
+                <div class="flex items-center ps-4">
+                    <a href="#mineria"><label id="mineria" for="mineria" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Mineria</label></a>
+                </div>
+            </li>
+        </ul>
+        Si el tipo de producto es e-commerce en una tabla y si es mineria en otra tabla
+        <div id="e-commerce">
+            <div class="ml-8">
+                <table class="p-2.5 pt-2 pb-2 border-collapse w-11/12 justify-center">
+                    <thead>
+                        <tr class="bg-slate-400 border-collapse">
+                            <th class="px-4 py-2 border text-center">Fecha/hora</th>
+                            <th class="px-4 py-2 border text-center">Empleado</th>
+                            <th class="px-4 py-2 border text-center">Descripcion</th>
+                            <th class="px-4 py-2 border text-center">SN</th>
+                            <th class="px-4 py-2 border text-center">Compañia Transporte</th>
+                            <th class="px-4 py-2 border text-center">Track</th>
+                            <th class="px-4 py-2 border text-center">Tipo de Producto</th>
+                            <th class="px-4 py-2 border text-center">Origen</th>
+                            <th class="px-4 py-2 border text-center">Destino</th>
+                            <th class="px-4 py-2 border text-center">Minando</th>
+                            <th class="px-4 py-2 border text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for paquete in paquetes %}
+                            <tr>
+                                <td class="px-4 py-2 border text-center">{{ paquete.fecha_hora }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.id_empleado }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.descripcion }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.sn }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.compania_transporte }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.track }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.tipo_producto }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.origen }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.destino }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.minando }}</td>
+                                <td class="px-4 py-2 border text-center">
+                                    <a href="{{ url_for('update', id=paquete.id) }}"><button type="button" id="mod">📝</button></a>
+                                    <a href="{{ url_for('delete', id=paquete.id) }}"><button type="button" id="eliminar">🗑️</button></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="mineria">
+            <div class="ml-8">
+                <table class="p-2.5 pt-2 pb-2 border-collapse w-11/12 justify-center">
+                    <thead>
+                        <tr class="bg-slate-400 border-collapse">
+                            <th class="px-4 py-2 border text-center">Fecha/hora</th>
+                            <th class="px-4 py-2 border text-center">Empleado</th>
+                            <th class="px-4 py-2 border text-center">Descripcion</th>
+                            <th class="px-4 py-2 border text-center">SN</th>
+                            <th class="px-4 py-2 border text-center">Compañia Transporte</th>
+                            <th class="px-4 py-2 border text-center">Track</th>
+                            <th class="px-4 py-2 border text-center">Tipo de Producto</th>
+                            <th class="px-4 py-2 border text-center">Origen</th>
+                            <th class="px-4 py-2 border text-center">Destino</th>
+                            <th class="px-4 py-2 border text-center">Minando</th>
+                            <th class="px-4 py-2 border text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for paquete in paquetes %}
+                            <tr>
+                                <td class="px-4 py-2 border text-center">{{ paquete.fecha_hora }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.id_empleado }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.descripcion }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.sn }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.compania_transporte }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.track }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.tipo_producto }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.origen }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.destino }}</td>
+                                <td class="px-4 py-2 border text-center">{{ paquete.minando }}</td>
+                                <td class="px-4 py-2 border text-center">
+                                    <a href="{{ url_for('update', id=paquete.id) }}"><button type="button" id="mod">📝</button></a>
+                                    <a href="{{ url_for('delete', id=paquete.id) }}"><button type="button" id="eliminar">🗑️</button></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    -->
     <div class="ml-8">
         <table class="p-2.5 pt-2 pb-2 border-collapse w-11/12 justify-center">
             <thead>
@@ -106,7 +206,7 @@
                 <label for="descripcion" class="block text-sm font-medium leading-6 text-gray-900">Descripcion</label>
                 <textarea name="descripcion" id="descripcion" cols="30" rows="5" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none" placeholder="Descripcion"></textarea><br>
 
-                <label for="sn" class="block text-sm font-medium leading-6 text-gray-900">Numero de serie: </label>
+                <label for="sn" class="block text-sm font-medium leading-6 text-gray-900">Numero de serie</label>
                 <input type="text" name="sn" id="sn" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="SN(Numero de serie)"><br><br>
 
                 <label for="compania_transporte" class="block text-sm font-medium leading-6 text-gray-900">Compañia de Transporte</label>
@@ -142,7 +242,7 @@
                 </select><br>
 
                 <input type="checkbox" id="minando" name="minando" value="minando">
-                <label for="minando"> Minando</label><br><br>
+                <label for="minando" class="text-black"> Minando</label><br><br>
 
                 <div id="botones" class="bg-slate-300 h-11 text-center">
                     <a href="/">
@@ -154,6 +254,6 @@
                 </div>
             </form>
         </div>
-    <div>
+    <div>      
 </body>
 </html>
