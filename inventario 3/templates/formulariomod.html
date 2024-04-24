@@ -10,7 +10,7 @@
     <div id="ventana" class="mx-24 mt-2.5 h-max border border-blaxk-500/75">
         <h3 class="mx-10 mt-2.5 text-3xl font-bold dark:text-white">Modificar Paquete</h3><br>
         <div id="formulario" class="mx-10">
-            <form>
+            <form method="post">
                 <label for="registrador" class="block text-sm font-medium leading-6 text-gray-900">Nombre del empleado</label>
                 <input type="text" id="registrador" name="registrador" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{paquete.id_empleado}}" disabled><br><br>
 
@@ -55,7 +55,7 @@
                     <option value="Otros">Otros</option>
                 </select><br>
 
-                <input type="checkbox" id="minando" name="minando">
+                <input type="checkbox" id="minando" name="minando" {% if paquete.minando %} checked {% endif %}>
                 <label for="minando"> Minando</label><br><br>
 
                 <div id="botones" class="bg-slate-300 h-11 text-center">

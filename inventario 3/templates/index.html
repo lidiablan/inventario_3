@@ -6,7 +6,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Inventario</title>
     <style>
-
         .modalmask{
             top:0;
             right:0;
@@ -29,15 +28,6 @@
             z-index: 10;
         }
     </style>
-    <script>
-        function reset(){  
-            document.getElementById("cancelar").reset();  
-        } 
-
-        function eliminar() {
-            confirm("¿Estás seguro de querer eliminar?");
-        } 
-    </script>
 </head>
 <body>
     <div id="contedor" class="ml-8 mt-6">
@@ -95,7 +85,7 @@
                         <td class="px-4 py-2 border text-center">{{ paquete.minando }}</td>
                         <td class="px-4 py-2 border text-center">
                             <a href="{{ url_for('update', id=paquete.id) }}"><button type="button" id="mod">📝</button></a>
-                            <a href="{{ url_for('delete', id=paquete.id) }}"><button type="button" id="eliminar" onclick="eliminar()">🗑️</button></a>
+                            <a href="{{ url_for('delete', id=paquete.id) }}"><button type="button" id="eliminar">🗑️</button></a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -114,7 +104,7 @@
                 <input type="datetime-local" id="fechahora" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"><br><br>
 
                 <label for="descripcion" class="block text-sm font-medium leading-6 text-gray-900">Descripcion</label>
-                <textarea name="descripcion" id="descripcion" cols="30" rows="5" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none" placeholder="Descripcion"></textarea><br><br>
+                <textarea name="descripcion" id="descripcion" cols="30" rows="5" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none" placeholder="Descripcion"></textarea><br>
 
                 <label for="sn" class="block text-sm font-medium leading-6 text-gray-900">Numero de serie: </label>
                 <input type="text" name="sn" id="sn" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="SN(Numero de serie)"><br><br>
@@ -125,7 +115,7 @@
                     <option value="Correos Express">Correos Express</option>
                     <option value="DHL">DHL</option>
                     <option value="UPS">UPS</option>
-                </select><br><br>
+                </select><br>
 
                 <label for="track" class="block text-sm font-medium leading-6 text-gray-900">Track</label>
                 <input type="text" name="track" id="track" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Track"><br><br>
@@ -134,7 +124,7 @@
                 <select id="tipo" name="tipo_producto" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value="E-Commerce">E-Commerce</option>
                     <option value="Minando">Minando</option>
-                </select><br><br>
+                </select><br>
 
                 <label for="origen" class="block text-sm font-medium leading-6 text-gray-900">Origen</label>
                 <select id="origen" name="origen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -142,14 +132,14 @@
                     <option value="España">España</option>
                     <option value="Devolucion">Devolucion</option>
                     <option value="Oficina">Oficina</option>
-                </select><br><br>
+                </select><br>
 
                 <label for="destino" class="block text-sm font-medium leading-6 text-gray-900">Destino</label>
                 <select id="destino" name="destino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value="Hosting">Hosting</option>
                     <option value="España">España</option>
                     <option value="Otros">Otros</option>
-                </select><br><br>
+                </select><br>
 
                 <input type="checkbox" id="minando" name="minando" value="minando">
                 <label for="minando"> Minando</label><br><br>
@@ -160,9 +150,6 @@
                             Cerrar
                         </button>
                     </a>
-                    <button type="button" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 border border-gray-400 rounded shadow" id="cancelar" onClick = "reset()">
-                        Cancelar
-                    </button>
                     <input type="submit" id="confirmar" value="Confirmar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"/>
                 </div>
             </form>
