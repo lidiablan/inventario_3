@@ -84,8 +84,9 @@ def formulario():
       tipo_producto = request.form['tipo_producto']
       origen = request.form['origen']
       destino = request.form['destino']
-      minando = True if 'minando' in request.form else False
-
+      #minando = True if 'minando' in request.form else False
+      minando = request.form['minando']
+      
       nuevo_paquete = Paquetes(
           id_empleado=empleado,
           descripcion=descripcion,
