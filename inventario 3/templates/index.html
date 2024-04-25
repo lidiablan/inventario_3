@@ -29,14 +29,6 @@
         .modalmask:target{
             display: block;
         }
-        /*
-        #e-commerce{
-            background-color: white;
-        }
-        #mineria{
-            background-color: white;
-        }
-        */
     </style>
 </head>
 <body>
@@ -54,12 +46,12 @@
         </div>
     </div>
     <br>
-    <!--
+   
     <div>
         <ul class="items-center w-full text-sm font-medium text-gray-900 bg-white sm:flex dark:bg-gray-800 dark:text-white">
             <li class="w-full">
                 <div class="flex items-center ps-4">
-                    <a href="#e-commerce"><label id="e-commerce" for="e-commerce" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">E-Commerce</label></a>
+                    <a href="#e-commerce"><label id="e-commerce" style="text-decoration: underline" for="e-commerce" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">E-Commerce</label></a>
                 </div>
             </li>
             <li class="w-full ">
@@ -68,92 +60,91 @@
                 </div>
             </li>
         </ul>
-        Si el tipo de producto es e-commerce en una tabla y si es mineria en otra tabla
-        <div id="e-commerce">
-            <div class="ml-8">
-                <table class="p-2.5 pt-2 pb-2 border-collapse w-11/12 justify-center">
-                    <thead>
-                        <tr class="bg-slate-400 border-collapse">
-                            <th class="px-4 py-2 border text-center">Fecha/hora</th>
-                            <th class="px-4 py-2 border text-center">Empleado</th>
-                            <th class="px-4 py-2 border text-center">Descripcion</th>
-                            <th class="px-4 py-2 border text-center">SN</th>
-                            <th class="px-4 py-2 border text-center">Compañia Transporte</th>
-                            <th class="px-4 py-2 border text-center">Track</th>
-                            <th class="px-4 py-2 border text-center">Tipo de Producto</th>
-                            <th class="px-4 py-2 border text-center">Origen</th>
-                            <th class="px-4 py-2 border text-center">Destino</th>
-                            <th class="px-4 py-2 border text-center">Minando</th>
-                            <th class="px-4 py-2 border text-center">Acciones</th>
+    </div>
+    <div id="e-commerce">
+        <div class="ml-8">
+            <table class="p-2.5 pt-2 pb-2 border-collapse w-11/12 justify-center">
+                <thead>
+                    <tr class="bg-slate-400 border-collapse">
+                        <th class="px-4 py-2 border text-center">Fecha/hora</th>
+                        <th class="px-4 py-2 border text-center">Empleado</th>
+                        <th class="px-4 py-2 border text-center">Descripcion</th>
+                        <th class="px-4 py-2 border text-center">SN</th>
+                        <th class="px-4 py-2 border text-center">Compañia Transporte</th>
+                        <th class="px-4 py-2 border text-center">Track</th>
+                        <th class="px-4 py-2 border text-center">Tipo de Producto</th>
+                        <th class="px-4 py-2 border text-center">Origen</th>
+                        <th class="px-4 py-2 border text-center">Destino</th>
+                        <th class="px-4 py-2 border text-center">Minando</th>
+                        <th class="px-4 py-2 border text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for paquete in paquetes %}
+                        <tr>
+                            <td class="px-4 py-2 border text-center">{{ paquete.fecha_hora }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.id_empleado }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.descripcion }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.sn }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.compania_transporte }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.track }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.tipo_producto }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.origen }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.destino }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.minando }}</td>
+                            <td class="px-4 py-2 border text-center">
+                                <a href="{{ url_for('update', id=paquete.id) }}"><button type="button" id="mod">📝</button></a>
+                                <a href="{{ url_for('delete', id=paquete.id) }}"><button type="button" id="eliminar">🗑️</button></a>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {% for paquete in paquetes %}
-                            <tr>
-                                <td class="px-4 py-2 border text-center">{{ paquete.fecha_hora }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.id_empleado }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.descripcion }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.sn }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.compania_transporte }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.track }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.tipo_producto }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.origen }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.destino }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.minando }}</td>
-                                <td class="px-4 py-2 border text-center">
-                                    <a href="{{ url_for('update', id=paquete.id) }}"><button type="button" id="mod">📝</button></a>
-                                    <a href="{{ url_for('delete', id=paquete.id) }}"><button type="button" id="eliminar">🗑️</button></a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div id="mineria">
-            <div class="ml-8">
-                <table class="p-2.5 pt-2 pb-2 border-collapse w-11/12 justify-center">
-                    <thead>
-                        <tr class="bg-slate-400 border-collapse">
-                            <th class="px-4 py-2 border text-center">Fecha/hora</th>
-                            <th class="px-4 py-2 border text-center">Empleado</th>
-                            <th class="px-4 py-2 border text-center">Descripcion</th>
-                            <th class="px-4 py-2 border text-center">SN</th>
-                            <th class="px-4 py-2 border text-center">Compañia Transporte</th>
-                            <th class="px-4 py-2 border text-center">Track</th>
-                            <th class="px-4 py-2 border text-center">Tipo de Producto</th>
-                            <th class="px-4 py-2 border text-center">Origen</th>
-                            <th class="px-4 py-2 border text-center">Destino</th>
-                            <th class="px-4 py-2 border text-center">Minando</th>
-                            <th class="px-4 py-2 border text-center">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for paquete in paquetes %}
-                            <tr>
-                                <td class="px-4 py-2 border text-center">{{ paquete.fecha_hora }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.id_empleado }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.descripcion }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.sn }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.compania_transporte }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.track }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.tipo_producto }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.origen }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.destino }}</td>
-                                <td class="px-4 py-2 border text-center">{{ paquete.minando }}</td>
-                                <td class="px-4 py-2 border text-center">
-                                    <a href="{{ url_for('update', id=paquete.id) }}"><button type="button" id="mod">📝</button></a>
-                                    <a href="{{ url_for('delete', id=paquete.id) }}"><button type="button" id="eliminar">🗑️</button></a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
-    -->
-    <div class="ml-8">
+    <div id="mineria">
+        <div class="ml-8">
+            <table class="p-2.5 pt-2 pb-2 border-collapse w-11/12 justify-center">
+                <thead>
+                    <tr class="bg-slate-400 border-collapse">
+                        <th class="px-4 py-2 border text-center">Fecha/hora</th>
+                        <th class="px-4 py-2 border text-center">Empleado</th>
+                        <th class="px-4 py-2 border text-center">Descripcion</th>
+                        <th class="px-4 py-2 border text-center">SN</th>
+                        <th class="px-4 py-2 border text-center">Compañia Transporte</th>
+                        <th class="px-4 py-2 border text-center">Track</th>
+                        <th class="px-4 py-2 border text-center">Tipo de Producto</th>
+                        <th class="px-4 py-2 border text-center">Origen</th>
+                        <th class="px-4 py-2 border text-center">Destino</th>
+                        <th class="px-4 py-2 border text-center">Minando</th>
+                        <th class="px-4 py-2 border text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for paquete in paquetes %}
+                        <tr>
+                            <td class="px-4 py-2 border text-center">{{ paquete.fecha_hora }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.id_empleado }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.descripcion }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.sn }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.compania_transporte }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.track }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.tipo_producto }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.origen }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.destino }}</td>
+                            <td class="px-4 py-2 border text-center">{{ paquete.minando }}</td>
+                            <td class="px-4 py-2 border text-center">
+                                <a href="{{ url_for('update', id=paquete.id) }}"><button type="button" id="mod">📝</button></a>
+                                <a href="{{ url_for('delete', id=paquete.id) }}"><button type="button" id="eliminar">🗑️</button></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- <div class="ml-8">
         <table class="p-2.5 pt-2 pb-2 border-collapse w-11/12 justify-center">
             <thead>
                 <tr class="bg-slate-400 border-collapse">
@@ -191,7 +182,7 @@
                 {% endfor %}
             </tbody>
         </table>
-    </div>
+    </div> -->
     
     <div id="modalCrear" class="modalmask">
         <h3 class="mx-10 mt-2.5 text-3xl font-bold dark:text-white">Crear Paquete</h3><br>
@@ -254,6 +245,7 @@
                 </div>
             </form>
         </div>
-    <div>      
+    <div>
+    <script src="index.js"></script>  
 </body>
 </html>
