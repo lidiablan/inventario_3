@@ -1,0 +1,44 @@
+version: '3'
+services:
+  mariadb:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: abcd1234.
+      MYSQL_DATABASE: inventario3
+      MYSQL_USER: Prueba3
+      MYSQL_PASSWORD: Practicas2024@
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  apache:
+    image: httpd
+    ports:
+      - "80:80"
+    volumes:
+      - ./templates:/usr/local/apache2/htdocs
+    depends_on:
+      - mariadb
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mariadb
+      MYSQL_ROOT_PASSWORD: abcd1234.
+    depends_on:
+      - mariadb
+
+  python:
+    image: python
+    volumes:
+      - ./templates:/codigo
+    depends_on:
+      - mariadb
+    command: ["bash", "-c", "pip install --no-cache-dir -r /codigo/requirements.txt && tail -f /dev/null"]
+
+volumes:
+  mariadb_data:
+  templates:
